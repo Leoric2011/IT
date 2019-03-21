@@ -34,23 +34,3 @@ To Start the Project:
 14.) python manage.py addreviews
 
 
-Itech Folder Structure:
-
-	-game (PROJECT FOLDER-has settings/urls/wsgi)
-	
-	-find (app--has app shit)
-	
-	-static 
-	
-		-css
-		
-		-img
-		
-		-jquery
-		
-		-js
-		
-	-templates
-	
-	-manage.py 
-
