@@ -1,0 +1,26 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}Submission Accepted{% endblock %}
+
+{% block title %}
+    <h1>Successful!</h1>
+{% endblock %}
+
+{% block content %}
+	<div>
+		<b><p>Thank you for your submission, we really appreciate it!
+  		Why don't you stay with us and take another look around?</p></b> 
+
+	</div>
+    <div>
+
+        <img src= "{% static 'img/submitted.png' %}"  height="350" width="350"/></br>
+		<a href="{% url 'index' %}">Home </a>
+		<a href="{% url 'gamelist' %}">Game </a>
+		<a href="{% url 'contact' %}">Contact </a>
+		<a href="{% url 'submit' %}">Submit </a>
+<br/>
+		<b>We look forward to your next submission.</b>
+	</div>
+{% endblock %}

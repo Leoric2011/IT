@@ -1,0 +1,17 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}500{% endblock %}
+
+{% block title %}
+	<h1>500 Error</h1>
+{% endblock %}
+
+{% block content %}
+<h1><b>Sorry, we have broken down.<br />
+ We will work as hard as we can to help you find games.<br />
+ In the meantime, stay hydrated.</b></h1>
+<div class = "imgFull">
+	<img src = "{% static 'img/game.jpg' %}"  alt="Image of a water game" height="350" width="300"/>
+</div>
+{% endblock %}

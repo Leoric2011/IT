@@ -1,0 +1,206 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}Home{% endblock %}
+
+{% block title %}
+<h1>Find a Discount</h1>
+<p><b>Created by TeamAD</b></p>
+{% endblock %}
+
+{% block content %}
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="{% static 'js/game.js' %}"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+<style>
+	#map {
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+<div class="container-fluid">
+
+	<div class="row">
+
+		<div class="col-sm">
+
+			<br />
+			<h2><b>{{game.name}}</b></h2>
+			<img width=300 height="auto" src='{{ MEDIA_URL}}{{game.image}}' /><br />
+			<hr>
+			<b>Price: </b>{{game.price}} <br />
+			{% if ratings %}
+			<b> Rating: </b>
+
+			<div id="rating" style="font-size:1.5em; color: gold ">
+
+				<script type="text/javascript">
+
+					var rating = 0;
+
+					{% for rating in ratings %}
+
+					rating = rating + {{ rating.points }};
+
+					{% endfor %}
+
+					rating = rating / {{ ratings | length }};
+
+					printRating(rating);
+
+				</script>
+
+			</div>
+
+			{% else %}
+			There aren't any ratings yet. <br />
+			{% endif %}
+
+			Reviews: {{reviews|length}}
+
+
+			{% if game.broken %}
+			Yes
+			{% else %}
+			No
+			{% endif %}
+
+			<br /><br />
+			{% if game.judgediscount %}
+			<img width=300 height="auto" src="{% static 'img/discount.png' %}" /><br />
+			{% else %}
+			<img width=300 height="auto" src="{% static 'img/original.jpg' %}" /><br />
+			{% endif %}
+
+		</div>
+
+		<div class="col-6" style="border: 1px solid white;">
+			<div>
+
+				<hr> {{game.description}}
+				<hr>
+				<br><br />
+
+				<iframe id="player" type="text/html" width="640" height="360"
+					src="{{game.url}}"
+					frameborder="0"></iframe>
+			</div><br />
+
+		</div>
+
+		<div class="col-sm2" style="max-width: 400px; padding:20px; border: 1px solid white;">
+
+			<h2><b>Reviews</b></h2>
+			<hr>
+
+			<div
+				style="max-height: 300px; width: 370px; background: white; overflow:auto; padding: 15px; border: 1px solid gainsboro;">
+
+				{% if reviews %}
+				{% for review in reviews %}
+
+				<img width='75' src='{{MEDIA_URL}}{{review.user.picture}}' align="left" style="padding: 0 10px 0 0px" />
+				<div style="text-align:left">
+					<b> "{{review.title}}" </b> <br />
+					<b> {{review.user}}</b>,
+					<font style="color:gray"> {{review.datetime}}</font>
+					{{review.text}}<br />
+					<hr>
+				</div>
+
+				{% endfor %}
+				{% else %}
+				This game has no reviews.
+				<hr>
+				{% endif %}
+
+			</div>
+
+			<hr>
+
+			<div class="col-sm3">
+
+				{% if user.is_authenticated %}
+
+				<h2><b>Leave a review</b></h2>
+
+				<form id="review" method="post" enctype="multipart/form-data">
+
+					<div align=center>
+						{% csrf_token %}
+						<b> {{ review_form.as_p }} </b>
+					</div>
+
+					<button type="submit" name="reviewform" class="btn-custom" style="width: 250px"
+						alt="Submit a review">
+						<b> Submit a review </b>
+					</button>
+
+				</form><br />
+
+				<form id="rate" method="post">
+
+					<button type="submit" name="ratingform" style="width: 138px" class="btn-custom"
+						alt="Submit a rating">
+						Rate
+					</button>
+
+					{% csrf_token %}
+					{{ rating_form }}
+
+				</form>
+
+				<br />
+
+				{% else %}
+
+				You need to be <a href="{% url 'register' %}">logged in</a> in order to submit a review or rate a game.
+
+				<br />
+				<br />
+
+				{% endif %}
+
+				{% if game.broken %}
+
+				<form method="post">
+					<button id="BrokenDiscountForm" type="submit" name="broken"
+						style="margin: 7.5px 0 0 0; width: 250px" class="btn-custom-green" alt="Report fixed"
+						value="False">
+
+						<b> Report this game as fixed</b>
+					</button>
+
+					{% csrf_token %}
+					{{ BrokenDiscountForm }}
+
+				</form>
+
+				{% else %}
+
+				<form method="post">
+					<button id="BrokenDiscountForm" type="submit" name="broken"
+						style="margin: 0 0 7.5px 0; width: 250px" class="btn-custom-red" alt="Report broken"
+						value="True">
+						<b> Report a broken game</b>
+					</button>
+
+					{% csrf_token %}
+					{{ BrokenDiscountForm }}
+
+				</form>
+
+				{% endif %}
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}

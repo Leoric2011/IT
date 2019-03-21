@@ -1,0 +1,100 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}Home{% endblock %}
+
+{% block title %}
+	<h1>Is There Any Discount ?</h1>
+    <script>
+  (function() {
+    var cx = '013188174388172778977:r25azrr1i_u';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+{% endblock %}
+
+{% block content %}
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+
+
+
+<div class = "container-fluid">
+	<div class = "row" style="background-color: #ffeeba">
+
+		<div class = "col-sm" >
+
+		{% if user.is_authenticated %}
+			<h3><b>Any discounts find?<br/>
+			<a href = "{% url 'submit' %}" >Share to others!</a></b></h3>
+		{% else %}
+			<h3><b> Sign Up <a href = "{% url 'register' %}" >Here</a> to share discounts</b></h3><hr>
+		{% endif %}
+
+			<h2><b>You can Find Discounts Here</b></h2><hr>
+		
+			<div style="max-height: 800px; overflow:auto; padding: 20px; border: 2px solid gray;">
+
+					{% for item in activity %}
+				
+					<img width='75' src='{{MEDIA_URL}}{{item.user.picture}}' align="left" style="padding: 0 10px 0 0px"/>
+
+						<div style="text-align:left">
+
+							{% if item.title %}
+
+								<b> {{item.user}}</b> reviewed the <a href ='/game/{{item.game.id}}'>{{item.game.name}}</a><br/>
+
+								<div style ="color:gray">
+									{{item.datetime}}<br/>
+								</div>
+
+								<b> "{{item.title}}" </b> <br/>
+								{{item.text}}
+
+							{% else %}
+
+								<b> {{item.user}}</b> rated the <a href ='/game/{{item.game.id}}'>{{item.game.name}}</a><br/>
+
+								<div style ="color:gray"> 
+									{{item.datetime}}<br/>
+								</div> 
+
+							{% endif %}
+
+						</div>
+
+						<hr> 
+
+					{% endfor %}
+
+			</div>
+
+		</div>
+
+		<div class = "col-sm">
+		<a class="twitter-timeline" data-width="500" data-height="900" href="https://twitter.com/wario64">Tweets by PlayStation</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div>
+
+		<div class ="col-sm">
+
+            {% for game in games %}
+       <div style="width:29%; float: left; margin: 2% ;padding: 5%; text-align: center; font-size: 6px;border:1px solid white;">
+            <img width=100 height=100 src='{{ MEDIA_URL}}{{game.image}}'><br>
+        <a href="/game/{{game.id}}">{{ game.name }}</a>
+
+    </div>
+            {% endfor %}
+	</div>
+
+
+</div>
+</div>>
+{% endblock %}

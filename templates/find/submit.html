@@ -1,0 +1,63 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}Submit{% endblock %}
+
+{% block title %}
+  <h1>Submit</h1>
+{% endblock %}
+
+{% block content %} 
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"> 
+<script type="text/javascript" src="{% static 'js/submit.js' %}"></script>
+
+{% if user.is_authenticated %}
+	<div class = "row">
+		<div class = "container-fluid">
+			<div class = "col">
+					<b style="font-size:25px">Submit Your Discount Here!</b><br />
+
+					<b style="font-size:18px"> Finish the following information </b><br />
+
+					<form id = "game_form" method="post" action="{% url 'submit' %}" enctype="multipart/form-data">
+
+					{% csrf_token %}
+
+                         {{ game_form.as_p }}
+
+                <input  type="radio"  name="judgediscount" value="True"/>
+                <label >discount</label>
+                <input  type="radio"  name="judgediscount" value="False" />
+                <label >original</label>
+
+
+					<input type="submit" name="submit" value="Submit" />
+					</form>
+					<br/>
+
+					<div>
+						<img style="border: 1px solid white; width: 300px; height: 290px" src="{% static 'img/submitted.png' %}" alt="Image of a game"/>
+					</div> <!-- Image Div End -->
+			</div> <!-- Col-Left End -->
+		</div> <!-- end container-fluid -->
+	</div> <!-- end row -->
+
+
+		<div id = "Not logged in">
+			{% else %}
+				<div class = "row">
+					<div class = "container-fluid">
+						<div class = "center">
+							<h2><b>In order to submit a game, you're going to have to login first!</b>
+							<p><b>Login<a href= "{% url 'register' %}"> Here</a></b></p></h2>
+							
+							<img src="{% static 'img/timg.jpg' %}" class = "fulling"/>
+						</div> <!--end submit div -->
+					</div>	<!--end container div -->
+				</div> <!-- end row div -->
+		</div>
+					{% endif %}
+		
+</div>
+{% endblock %}

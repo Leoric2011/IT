@@ -1,0 +1,16 @@
+{% extends 'find/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}404{% endblock %}
+
+{% block title %}
+	<h1>404 Error</h1>
+{% endblock %}
+
+{% block content %}
+<h1><b>Whoops. The game you seek does not exist.<br />
+ Try again. Or Go Back To Our <a href = "{% url 'index' %}" >Homepage</a></b></h1>
+<div class = "imgFull">
+	<img src = "{% static 'img/game.jpg' %}"  alt="Image of a water game" height="350" width="300"/>
+</div>
+{% endblock %}
